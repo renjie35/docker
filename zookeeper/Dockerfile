@@ -3,7 +3,7 @@ ENV NGINX_VERSION 1.12.0
 # install java
 RUN yum install -y java
 # install supervisor
-RUN yum install -y supervisor
+# RUN yum install -y supervisor
 #fix permission
 RUN groupadd -g 555 -r www \
     && adduser -u 555 -r -g www www \
