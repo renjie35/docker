@@ -13,8 +13,8 @@ RUN wget http://mirrors.shuosc.org/apache/zookeeper/zookeeper-$ZOOKEEPER_VERSION
 RUN tar zxvf /app/zookeeper/zookeeper*.tar.gz -C /app/zookeeper
 
 #fix permission
-RUN addgroup -g 555 -r www \
-    && adduser -u 555 -r -g www www \
+RUN addgroup -g 555 -S www \
+    && adduser -u 555 -D -S -G www www \
     && chmod -R 777 /run \
     && chmod -R 777 /var \
     && chmod -R 777 /usr/sbin 
