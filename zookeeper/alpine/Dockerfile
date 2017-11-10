@@ -2,6 +2,7 @@ FROM java:openjdk-7u121-jre-alpine
 # install exts
 #RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #    && echo "Asia/Shanghai" >  /etc/timezone \
+RUN apk add --no-cache --update-cache bash
 
 # install zookeeper
 ENV ZOOKEEPER_VERSION "3.5.2-alpha"
