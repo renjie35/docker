@@ -4,7 +4,8 @@ RUN yum -y install wget java
 # install zookeeper
 ENV ZOOKEEPER_VERSION "3.5.2"
 
-RUN mkdir /app/zookeeper && \
+RUN mkdir /app && \
+	mkdir /app/zookeeper && \
     wget http://mirror.olnevhost.net/pub/apache/zookeeper/zookeeper-$ZOOKEEPER_VERSION/zookeeper-$ZOOKEEPER_VERSION.tar.gz -P /app/zookeeper
 
 RUN tar zxvf /app/zookeeper/zookeeper*.tar.gz -C /app/zookeeper
