@@ -20,7 +20,8 @@ RUN groupadd -g 555 -r www \
 
 COPY zoo.cfg /app/zookeeper/zookeeper-"$ZOOKEEPER_VERSION"/conf/zoo.cfg
 
-RUN echo "/app/zookeeper/zookeeper-$"ZOOKEEPER_VERSION"/bin/zkServer.sh start" >> /app/start.sh
+RUN echo "/app/zookeeper/zookeeper-$"ZOOKEEPER_VERSION"/bin/zkServer.sh start" >> /app/start.sh && \
+	echo "top" >> /app/start.sh
 
 EXPOSE 2181
 
