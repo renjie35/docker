@@ -18,7 +18,7 @@ RUN groupadd -g 555 -r www \
     && chmod -R 777 /usr/sbin 
 
 
-COPY /app/zookeeper/zookeeper-"$ZOOKEEPER_VERSION"/conf/zoo_sample.cfg /app/zookeeper/zookeeper-"$ZOOKEEPER_VERSION"/conf/zoo.cfg
+COPY zoo.cfg /app/zookeeper/zookeeper-"$ZOOKEEPER_VERSION"/conf/zoo.cfg
 
 RUN echo "/app/zookeeper/zookeeper-$"ZOOKEEPER_VERSION"/bin/zkServer.sh start" >> /app/start.sh
 
