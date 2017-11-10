@@ -3,8 +3,8 @@ ENV NGINX_VERSION 1.12.0
 # install java
 RUN yum install -y java
 # install supervisor
-RUN yum -y install python-pip
-RUN pip install supervisor
+#RUN yum -y install python-pip
+#RUN pip install supervisor
 #fix permission
 RUN groupadd -g 555 -r www \
     && adduser -u 555 -r -g www www \
