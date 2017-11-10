@@ -1,4 +1,4 @@
-FROM openjdk-7u121-jre-alpine
+FROM java:openjdk-7u121-jre-alpine
 # install exts
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone \
