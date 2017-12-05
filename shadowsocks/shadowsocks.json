@@ -1,0 +1,9 @@
+{
+    "server":"121.227.61.83",
+    "server_port":1014,
+    "local_address": "127.0.0.1",
+    "local_port":1014,
+    "password":"sec_65387737..!",
+    "timeout":300,
+    "method":"aes-256-cfb"
+}

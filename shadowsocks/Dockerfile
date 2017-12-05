@@ -1,28 +1,24 @@
 FROM centos:7.4.1708
-# install wget java
-# RUN yum -y install wget java
-# install zookeeper
-# ENV ZOOKEEPER_VERSION "3.5.2-alpha"
+# install python-setuptools && easy_install pip
+RUN yum -y install python-setuptools && easy_install pip
+# install git
+RUN yum -y install git
+# download shadowsocks
+RUN pip install git+https://github.com/shadowsocks/shadowsocks.git@master
 
 RUN mkdir /app && \
  	mkdir /app/shadowsocks
 
-#RUN wget http://mirrors.shuosc.org/apache/zookeeper/zookeeper-$ZOOKEEPER_VERSION/zookeeper-$ZOOKEEPER_VERSION.tar.gz -P /app/zookeeper
-#RUN tar zxvf /app/zookeeper/zookeeper*.tar.gz -C /app/zookeeper
+# set conf
+COPY shadowsocks.json /etc/shadowsocks.json
 
-#fix permission
-#RUN groupadd -g 555 -r www \
-#    && adduser -u 555 -r -g www www \
-#    && chmod -R 777 /run \
-#    && chmod -R 777 /var \
-#    && chmod -R 777 /usr/sbin 
+# fix permission
+RUN chmod 755 /etc/shadowsocks.json
 
 
-#COPY zoo.cfg /app/zookeeper/zookeeper-"$ZOOKEEPER_VERSION"/conf/zoo.cfg
-
-#RUN echo "/app/zookeeper/zookeeper-$"ZOOKEEPER_VERSION"/bin/zkServer.sh start" >> /app/start.sh && \
+RUN echo "ssserver -c /etc/shadowsocks.json -d start" >> /app/start.sh && \
 RUN	echo "top" >> /app/start.sh
 
-#EXPOSE 2181
+EXPOSE 1014
 
 ENTRYPOINT ["sh", "/app/start.sh"]
