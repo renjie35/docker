@@ -9,7 +9,8 @@ RUN yum -y install git
 RUN pip install git+https://github.com/shadowsocks/shadowsocks.git@master
 
 RUN mkdir /app && \
- 	mkdir /app/shadowsocks
+ 	mkdir /app/shadowsocks && \
+ 	mkdir /supervisor
 
 # set conf
 COPY shadowsocks.json /etc/shadowsocks.json
