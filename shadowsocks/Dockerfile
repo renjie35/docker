@@ -19,7 +19,7 @@ COPY supervisor/shadowsocks.ini /supervisor/shadowsocks.ini
 # fix permission
 RUN chmod 755 /etc/shadowsocks.json
 
-RUN echo "supervisorctl -c /etc/supervisord.conf" >> /app/start.sh && \
+RUN echo "supervisord -c /etc/supervisord.conf" >> /app/start.sh && \
 	echo "top" >> /app/start.sh
 
 EXPOSE 8388
