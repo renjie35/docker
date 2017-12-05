@@ -9,13 +9,12 @@ RUN yum -y install git
 RUN pip install git+https://github.com/shadowsocks/shadowsocks.git@master
 
 RUN mkdir /app && \
- 	mkdir /app/shadowsocks && \
- 	mkdir /supervisor
+ 	mkdir /app/shadowsocks
 
 # set conf
 COPY shadowsocks.json /etc/shadowsocks.json
 COPY supervisord.conf /etc/supervisord.conf
-COPY supervisord/shadowsocks.ini /supervisor/shadowsocks.ini
+COPY supervisor/shadowsocks.ini /supervisor/shadowsocks.ini
 
 # fix permission
 RUN chmod 755 /etc/shadowsocks.json
