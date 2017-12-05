@@ -18,6 +18,6 @@ RUN chmod 755 /etc/shadowsocks.json
 RUN echo "ssserver -c /etc/shadowsocks.json -d start" >> /app/start.sh && \
 	echo "top" >> /app/start.sh
 
-EXPOSE 1014
+EXPOSE 8388
 
 ENTRYPOINT ["sh", "/app/start.sh"]
