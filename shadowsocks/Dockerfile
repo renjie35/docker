@@ -15,9 +15,8 @@ COPY shadowsocks.json /etc/shadowsocks.json
 # fix permission
 RUN chmod 755 /etc/shadowsocks.json
 
-
 RUN echo "ssserver -c /etc/shadowsocks.json -d start" >> /app/start.sh && \
-RUN	echo "top" >> /app/start.sh
+	echo "top" >> /app/start.sh
 
 EXPOSE 1014
 
