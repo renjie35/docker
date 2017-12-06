@@ -41,8 +41,8 @@ RUN echo "* soft nofile 51200" >> /etc/security/limits.conf && \
 RUN ulimit -n 51200
 
 # install kernel
-RUN yum update -y
-RUN yum install centos-release-xen-46 -y && \
+RUN yum install deltarpm -y && \
+	yum install centos-release-xen-46 -y && \
     yum install kernel -y
 
 # update sysctl
