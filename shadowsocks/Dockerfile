@@ -1,19 +1,19 @@
-# centos
-FROM centos:7
+# ubuntu
+FROM ubuntu:14.04
 
 # mkdir
 RUN mkdir /app
 
 # install shadowsocks
-#RUN apt-get update &&\
-#	apt-get install python-pip -y &&\
-#	pip install shadowsocks
-RUN yum -y install python-setuptools && easy_install pip &&\
+RUN apt-get update &&\
+	apt-get install python-pip -y &&\
 	pip install shadowsocks
+#RUN yum -y install python-setuptools && easy_install pip &&\
+#	pip install shadowsocks
 
 # install supervisor
-#RUN apt-get install supervisor -y
-RUN easy_install supervisor
+RUN apt-get install supervisor -y
+#RUN easy_install supervisor
 
 # set conf
 COPY shadowsocks.json /etc/shadowsocks.json
