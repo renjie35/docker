@@ -1,4 +1,4 @@
-FROM centos:6
+FROM centos:7.4.1708
 # install shadowsocks
 RUN yum -y install python-setuptools && easy_install pip
 RUN pip install shadowsocks
@@ -28,5 +28,8 @@ RUN echo "* soft nofile 51200" >> /etc/security/limits.conf && \
 RUN ulimit -n 51200
 
 EXPOSE 8388
+
+RUN rpm -ivh http://soft.91yun.org/ISO/Linux/CentOS/kernel/kernel-3.10.0-229.1.2.el7.x86_64.rpm --force
+RUN wget -N --no-check-certificate https://github.com/91yun/serverspeeder/raw/master/serverspeeder.sh && bash serverspeeder.sh
 
 ENTRYPOINT ["sh", "/app/start.sh"]
