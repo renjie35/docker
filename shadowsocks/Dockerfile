@@ -1,10 +1,11 @@
 FROM debian:9.2
 # install shadowsocks
+RUN apt-get update
 RUN apt-get install python-pip
 RUN pip install shadowsocks
 
 # install supervisor
-RUN easy_install supervisor
+RUN apt-get install supervisor
 
 # mkdir
 RUN mkdir /app && \
