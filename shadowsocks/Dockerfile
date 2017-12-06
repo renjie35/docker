@@ -1,13 +1,12 @@
-FROM centos:7.4.1708
-# install python-setuptools && easy_install pip
-RUN yum -y install python-setuptools && easy_install pip
+FROM debian:9.2
+# install shadowsocks
+RUN apt-get install python-pip
+RUN pip install shadowsocks
+
 # install supervisor
 RUN easy_install supervisor
-# install git
-RUN yum -y install git
-# download shadowsocks
-RUN pip install git+https://github.com/shadowsocks/shadowsocks.git@master
 
+# mkdir
 RUN mkdir /app && \
  	mkdir /app/shadowsocks
 
@@ -21,6 +20,12 @@ RUN chmod 755 /etc/shadowsocks.json
 
 RUN echo "supervisord -c /etc/supervisord.conf" >> /app/start.sh && \
 	echo "top" >> /app/start.sh
+
+# optimization
+RUN echo "* soft nofile 51200" >> /etc/security/limits.conf && \
+	echo "* hard nofile 51200" >> /etc/security/limits.conf
+
+RUN ulimit -n 51200
 
 EXPOSE 8388
 
