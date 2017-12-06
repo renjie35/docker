@@ -23,6 +23,10 @@ RUN echo "supervisord -c /etc/supervisord.conf" >> /app/start.sh && \
 	echo "top" >> /app/start.sh
 
 # optimization
+RUN apt-get autoclean && \
+	apt-get clean && \
+	apt-get autoremove
+
 RUN echo "* soft nofile 51200" >> /etc/security/limits.conf && \
 	echo "* hard nofile 51200" >> /etc/security/limits.conf
 
