@@ -1,11 +1,10 @@
-FROM ubuntu:18.04
+FROM centos:7.4.1708
 # install shadowsocks
-RUN apt-get update
-RUN apt-get -y install python-pip
+RUN yum -y install python-setuptools && easy_install pip
 RUN pip install shadowsocks
 
 # install supervisor
-RUN apt-get -y install supervisor
+RUN easy_install supervisor
 
 # mkdir
 RUN mkdir /app && \
@@ -14,7 +13,7 @@ RUN mkdir /app && \
 # set conf
 COPY shadowsocks.json /etc/shadowsocks.json
 COPY supervisord.conf /etc/supervisord.conf
-COPY supervisor/shadowsocks.ini /supervisor/shadowsocks.ini
+COPY supervisor/shadowsocks.ini /supervisor/shadowsocks.
 
 # fix permission
 RUN chmod 755 /etc/shadowsocks.json
