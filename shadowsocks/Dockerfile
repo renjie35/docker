@@ -1,5 +1,5 @@
 # debian
-FROM debian:9.2
+FROM debian:8
 
 # mkdir
 RUN mkdir /app
