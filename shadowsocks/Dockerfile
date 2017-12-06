@@ -26,6 +26,6 @@ RUN chmod 755 /etc/shadowsocks.json
 RUN echo "supervisord -c /etc/supervisord.conf" >> /app/start.sh && \
 	echo "top" >> /app/start.sh
 
-EXPOSE 8388
+EXPOSE 8080
 
 ENTRYPOINT ["sh", "/app/start.sh"]
