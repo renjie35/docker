@@ -1,14 +1,20 @@
 FROM centos:6
-# install shadowsocks
-RUN yum -y install python-setuptools && easy_install pip
-RUN pip install shadowsocks
-
-# install supervisor
-RUN easy_install supervisor
 
 # mkdir
 RUN mkdir /app && \
- 	mkdir /app/shadowsocks
+ 	mkdir /app/shadowsocks \
+ 	mkdir /dev
+
+# install shadowsocks
+RUN wget --no-check-certificate  https://pypi.python.org/packages/26/d1/dc7fe14ce4a3ff3faebf1ac11350de4104ea2d2a80c98393b55c84362b0c/setuptools-32.1.0.tar.gz -p /dev/ && \
+	tar zxvf setuptools-32.1.0.tar.gz && \
+	python /dev/setuptools-32.1.0/setup.py build && \
+	easy_install pip
+#RUN yum -y install python-setuptools && easy_install pip
+#RUN pip install shadowsocks
+
+# install supervisor
+RUN easy_install supervisor
 
 # set conf
 COPY shadowsocks.json /etc/shadowsocks.json
