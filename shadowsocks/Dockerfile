@@ -3,12 +3,12 @@ FROM centos:6
 # mkdir
 RUN mkdir /app && \
  	mkdir /app/shadowsocks \
- 	mkdir /dev
+ 	mkdir /app/dev
 
 # install shadowsocks
-RUN wget --no-check-certificate  https://pypi.python.org/packages/26/d1/dc7fe14ce4a3ff3faebf1ac11350de4104ea2d2a80c98393b55c84362b0c/setuptools-32.1.0.tar.gz -p /dev/ && \
+RUN wget --no-check-certificate  https://pypi.python.org/packages/26/d1/dc7fe14ce4a3ff3faebf1ac11350de4104ea2d2a80c98393b55c84362b0c/setuptools-32.1.0.tar.gz -p /app/dev/ && \
 	tar zxvf setuptools-32.1.0.tar.gz && \
-	python /dev/setuptools-32.1.0/setup.py build && \
+	python /app/dev/setuptools-32.1.0/setup.py build && \
 	easy_install pip
 #RUN yum -y install python-setuptools && easy_install pip
 #RUN pip install shadowsocks
