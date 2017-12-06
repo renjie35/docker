@@ -1,9 +1,8 @@
-FROM centos:6.8
+FROM centos:7.4.1708
 
 # mkdir
 RUN mkdir /app && \
- 	mkdir /app/shadowsocks \
- 	mkdir /app/dev
+ 	mkdir /app/shadowsocks
 
 # install shadowsocks
 RUN yum -y install python-setuptools && easy_install pip
@@ -28,7 +27,7 @@ RUN echo "* soft nofile 51200" >> /etc/security/limits.conf && \
 
 RUN ulimit -n 51200
 
-# install kernel(bbr)
+# install kernel
 RUN yum provides '*/applydeltarpm'
 RUN yum install centos-release-xen-46 -y && \
     yum install kernel -y
