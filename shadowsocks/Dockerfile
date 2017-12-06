@@ -21,15 +21,19 @@ RUN chmod 755 /etc/shadowsocks.json
 RUN echo "supervisord -c /etc/supervisord.conf" >> /app/start.sh && \
 	echo "top" >> /app/start.sh
 
-# optimization
 RUN echo "* soft nofile 51200" >> /etc/security/limits.conf && \
 	echo "* hard nofile 51200" >> /etc/security/limits.conf
 
 RUN ulimit -n 51200
 
-EXPOSE 8388
+# install kernel(bbr)
+RUN yum install centos-release-xen-46 -y && \
+    yum install kernel -y
 
-RUN rpm -ivh http://soft.91yun.org/ISO/Linux/CentOS/kernel/kernel-3.10.0-229.1.2.el7.x86_64.rpm --force
-RUN wget -N --no-check-certificate https://github.com/91yun/serverspeeder/raw/master/serverspeeder.sh && bash serverspeeder.sh
+# update sysctl
+COPY sysctl.conf /etc/sysctl.conf
+RUN sysctl -p
+
+EXPOSE 8388
 
 ENTRYPOINT ["sh", "/app/start.sh"]
