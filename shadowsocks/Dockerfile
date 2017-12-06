@@ -1,4 +1,4 @@
-FROM debian:9.2
+FROM ubuntu:18.04
 # install shadowsocks
 RUN apt-get update
 RUN apt-get -y install python-pip
