@@ -1,7 +1,6 @@
 FROM php:5.6-apache
 # install php exts
 RUN apt-get update \
-    && pecl channel-update pecl.php.net \
     && apt-get install libssl-dev -y \
     && pecl install mongodb \
     && pecl install redis \
