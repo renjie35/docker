@@ -1,0 +1,39 @@
+FROM php:5.6-apache
+# install php exts
+RUN apt-get update \
+    && apk add --no-cache --virtual .phpdeps \
+        $PHPIZE_DEPS pcre-dev  tzdata \
+
+    && pecl channel-update pecl.php.net \
+    && apt-get install libssl-dev -y \
+    && pecl install mongodb \
+    && pecl install redis \
+
+    && apt-get install libmcrypt-dev libxml2-dev \
+    && docker-php-ext-install mcrypt soap zip \
+
+    && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
+
+    && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd \
+    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc mcrypt soap zip mongodb redis gd\
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" >  /etc/timezone \
+
+#fix iconv
+RUN addgroup --gid 555 --system www \
+    && adduser --system --uid 555 --ingroup www www \
+    && chmod -R 777 /run \
+    && chmod -R 777 /var \
+    && chmod -R 777 /usr/sbin 
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+
+RUN apt-get install supervisor
+COPY supervisord.conf /etc/supervisord.conf
+
+COPY start.sh /start.sh
+
+EXPOSE 80 443
+
+ENTRYPOINT ["sh","/start.sh"]
