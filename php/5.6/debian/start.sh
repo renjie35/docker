@@ -1,2 +1,1 @@
-supervisord -c /etc/supervisord.conf \
-&& top
+supervisord -c /etc/supervisord.conf
