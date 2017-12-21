@@ -27,7 +27,6 @@ RUN adduser --system --uid 555 --no-create-home --ingroup www www
 RUN chmod -R 777 /run \
     && chmod -R 777 /var \
     && chmod -R 777 /usr/sbin 
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 RUN apt-get install supervisor -y
 COPY supervisord.conf /etc/supervisord.conf
