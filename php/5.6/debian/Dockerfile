@@ -1,5 +1,4 @@
 FROM php:5.6-apache
-ENV TERM linux
 # install php exts
 RUN apt-get update \
     && apt-get install libssl-dev -y \

@@ -1,1 +1,1 @@
-top
+tail -f /dev/null
