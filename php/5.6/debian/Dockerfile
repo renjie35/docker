@@ -1,9 +1,6 @@
 FROM php:5.6-apache
 # install php exts
 RUN apt-get update \
-    && apk add --no-cache --virtual .phpdeps \
-        $PHPIZE_DEPS pcre-dev  tzdata \
-
     && pecl channel-update pecl.php.net \
     && apt-get install libssl-dev -y \
     && pecl install mongodb \
