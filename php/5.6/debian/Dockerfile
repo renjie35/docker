@@ -29,7 +29,7 @@ RUN chmod -R 777 /run \
     && chmod -R 777 /usr/sbin 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
-RUN apt-get install supervisor
+RUN apt-get install supervisor -y
 COPY supervisord.conf /etc/supervisord.conf
 
 COPY start.sh /start.sh
