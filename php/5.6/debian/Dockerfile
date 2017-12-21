@@ -22,9 +22,9 @@ RUN apt-get update \
     && echo "Asia/Shanghai" >  /etc/timezone \
 
 #fix iconv
-RUN addgroup --gid 555 --system www \
-    && adduser --system --uid 555 --ingroup www www \
-    && chmod -R 777 /run \
+RUN addgroup --gid 555 --system www
+RUN adduser --system --uid 555 --no-create-home --ingroup www www
+RUN chmod -R 777 /run \
     && chmod -R 777 /var \
     && chmod -R 777 /usr/sbin 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
