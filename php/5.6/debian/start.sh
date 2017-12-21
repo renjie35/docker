@@ -1,1 +1,2 @@
-supervisord -c /etc/supervisord.conf
+supervisord -c /etc/supervisord.conf \
+top
