@@ -21,16 +21,18 @@ RUN apt-get update \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone
 
-#fix iconv
+# fix iconv
 RUN addgroup --gid 555 --system www
 RUN adduser --system --uid 555 --no-create-home --ingroup www www
 RUN chmod -R 777 /run \
     && chmod -R 777 /var \
-    && chmod -R 777 /usr/sbin 
+    && chmod -R 777 /usr/sbin
 
 RUN apt-get install supervisor -y
 COPY supervisord.conf /etc/supervisord.conf
 
+# open rewrite module
+RUN ﻿a2enmod rewrite
 COPY start.sh /start.sh
 
 EXPOSE 80 443
