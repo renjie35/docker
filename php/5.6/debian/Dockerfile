@@ -31,11 +31,11 @@ RUN chmod -R 777 /run \
 RUN apt-get install supervisor -y
 COPY supervisord.conf /etc/supervisord.conf
 
+# open rewrite module
+RUN /usr/sbin/a2enmod rewrite
+
 COPY start.sh /start.sh
 
 EXPOSE 80 443
 
 ENTRYPOINT ["sh","/start.sh"]
-
-# open rewrite module
-RUN ﻿a2enmod rewrite
