@@ -26,7 +26,7 @@ RUN apt-get update \
 RUN mkdir /download
 COPY oracle/ /download/
 # install php ext pdo_oci oci8
-ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib PATH=$PATH:$ORACLE_HOME/bin TNS_ADMIN=$ORACLE_HOME/network/admin NLS_LANG=SIMPLIFIED CHINESE_CHINA.ZHS16GBK
+ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib PATH=$PATH:$ORACLE_HOME/bin TNS_ADMIN=$ORACLE_HOME/network/admin NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16GBK"
 WORKDIR /download
 RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
     && dpkg -i oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb \
