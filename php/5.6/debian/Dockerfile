@@ -38,8 +38,8 @@ RUN apt-get install alien -y \
 COPY oracle/oracle.sh /etc/profile.d/oracle.sh
 RUN source /etc/profile.d/oracle.sh
 # install php ext pdo_oci oci8
-docker-php-ext-install oci8 pdo_oci
-docker-php-ext-enable oci8 pdo_oci
+RUN docker-php-ext-install oci8 pdo_oci \
+    && docker-php-ext-enable oci8 pdo_oci
 
 
 # fix iconv
