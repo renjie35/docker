@@ -21,28 +21,29 @@ RUN apt-get update \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone
 
+
 # php ext oracle
 RUN mkdir /download
-COPY oracle/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb
-COPY oracle/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb
-COPY oracle/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb
+COPY oracle/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
+    && oracle/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb \
+    && oracle/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb \
+    && oracle/tnsnames.ora $ORACLE_HOME/network/admin
+# install php ext pdo_oci oci8
+ENV ORACLE_HOME /usr/lib/oracle/11.2/client64 \
+    && LD_LIBRARY_PATH $LD_LIBRARY_PATH:$ORACLE_HOME/lib \
+    && PATH $PATH:$ORACLE_HOME/bin \
+    && TNS_ADMIN $ORACLE_HOME/network/admin \
+    && NLS_LANG SIMPLIFIED CHINESE_CHINA.ZHS16GBK
 WORKDIR /download
 RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
     && dpkg -i oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb \
-    && dpkg -i oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb
-# install php ext pdo_oci oci8
-ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$ORACLE_HOME/lib
-ENV PATH $PATH:$ORACLE_HOME/bin
-ENV TNS_ADMIN $ORACLE_HOME/network/admin
-ENV NLS_LANG SIMPLIFIED CHINESE_CHINA.ZHS16GBK
-RUN mkdir $ORACLE_HOME/network \
-    && mkdir $ORACLE_HOME/network/admin
-COPY oracle/tnsnames.ora $ORACLE_HOME/network/admin
-RUN apt-get install libaio1
-RUN C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install oci8 \
-    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install pdo_oci
-RUN docker-php-ext-enable oci8 pdo_oci
+    && dpkg -i oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb \
+    && mkdir $ORACLE_HOME/network \
+    && mkdir $ORACLE_HOME/network/admin \
+    && apt-get install libaio1 \
+    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install oci8 \
+    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install pdo_oci \
+    && docker-php-ext-enable oci8 pdo_oci
 
 
 # fix iconv
@@ -55,12 +56,9 @@ RUN chmod -R 777 /run \
 RUN apt-get install supervisor -y
 COPY supervisord.conf /etc/supervisord.conf
 
-# open rewrite module
-RUN /usr/sbin/a2enmod rewrite
-
-# open expires module
-RUN ln -s /etc/apache2/mods-available/expires.load /etc/apache2/mods-enabled/expires.load
-
+# open rewrite expires module
+RUN /usr/sbin/a2enmod rewrite \
+    && ln -s /etc/apache2/mods-available/expires.load /etc/apache2/mods-enabled/expires.load
 
 COPY start.sh /start.sh
 
