@@ -23,24 +23,25 @@ RUN apt-get update \
 
 # php ext oracle
 RUN mkdir /download
-COPY oracle/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
-COPY oracle/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
-COPY oracle/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
+COPY oracle/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb
+COPY oracle/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb
+COPY oracle/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb
 WORKDIR /download
-RUN apt-get install alien -y \
-    && alien oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm \
-    && alien oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm \
-    && alien oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
-RUN dpkg -i oracle-instantclient12.2-basic_12.2.0.1.0-2_amd64.deb
-RUN dpkg -i oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
-RUN dpkg -i oracle-instantclient12.2-sqlplus_12.2.0.1.0-2_amd64.deb
+RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
+    && dpkg -i oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb \
+    && dpkg -i oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb
 # install php ext pdo_oci oci8
-ENV ORACLE_HOME /usr/lib/oracle/12.2/client64
+ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$ORACLE_HOME/lib
 ENV PATH $PATH:$ORACLE_HOME/bin
+ENV TNS_ADMIN $ORACLE_HOME/network/admin
+ENV NLS_LANG SIMPLIFIED CHINESE_CHINA.ZHS16GBK
+RUN mkdir $ORACLE_HOME/network \
+    && mkdir $ORACLE_HOME/network/admin
+COPY oracle/tnsnames.ora $ORACLE_HOME/network/admin
 RUN apt-get install libaio1
-RUN C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 docker-php-ext-install oci8 \
-    && C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 docker-php-ext-install pdo_oci
+RUN C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install oci8 \
+    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install pdo_oci
 RUN docker-php-ext-enable oci8 pdo_oci
 
 
