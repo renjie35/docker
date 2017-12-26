@@ -27,12 +27,12 @@ RUN mkdir /download
 COPY oracle/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
 COPY oracle/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
 COPY oracle/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
-RUN apt-get install alien -y
-    && alien /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
-    && alien /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
-    && alien /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
-    && dpkg -i /download/oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
-    && dpkg -i /download/oracle-instantclient12.2-sqlplus_12.2.0.1.0-2_amd64.deb
+RUN apt-get install alien -y \
+    && alien /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm \
+    && alien /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm \
+    && alien /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm \
+    && dpkg -i /download/oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb \
+    && dpkg -i /download/oracle-instantclient12.2-sqlplus_12.2.0.1.0-2_amd64.deb \
     && dpkg -i /download/oracle-instantclient12.2-basic_12.2.0.1.0-2_amd64.deb
 # load oracle env
 COPY oracle/oracle.sh /etc/profile.d/oracle.sh
