@@ -24,10 +24,7 @@ RUN apt-get update \
 
 # php ext oracle
 RUN mkdir /download
-COPY oracle/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb
-COPY oracle/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb
-COPY oracle/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb /download/oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb
-COPY oracle/tnsnames.ora $ORACLE_HOME/network/admin
+COPY oracle/ /download/
 # install php ext pdo_oci oci8
 ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$ORACLE_HOME/lib
