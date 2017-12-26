@@ -37,7 +37,7 @@ RUN dpkg -i oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
 RUN dpkg -i oracle-instantclient12.2-sqlplus_12.2.0.1.0-2_amd64.deb
 # load oracle env
 COPY oracle/oracle.sh /etc/profile.d/oracle.sh
-RUN source /etc/profile.d/oracle.sh
+CMD  ["source /etc/profile.d/oracle.sh"]
 # install php ext pdo_oci oci8
 RUN C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 pecl install oci8-2.0.12
 WORKDIR /usr/src/php/ext/pdo_oci
