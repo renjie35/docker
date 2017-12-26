@@ -21,6 +21,27 @@ RUN apt-get update \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone
 
+# install oci
+# php ext oracle
+RUN mkdir /download
+COPY oracle/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
+COPY oracle/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
+COPY oracle/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
+RUN apt-get install alien -y
+    && alien /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
+    && alien /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
+    && alien /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
+    && dpkg -i /download/oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
+    && dpkg -i /download/oracle-instantclient12.2-sqlplus_12.2.0.1.0-2_amd64.deb
+    && dpkg -i /download/oracle-instantclient12.2-basic_12.2.0.1.0-2_amd64.deb
+# load oracle env
+COPY oracle/oracle.sh /etc/profile.d/oracle.sh
+RUN source /etc/profile.d/oracle.sh
+# install php ext pdo_oci oci8
+docker-php-ext-install oci8 pdo_oci
+docker-php-ext-enable oci8 pdo_oci
+
+
 # fix iconv
 RUN addgroup --gid 555 --system www
 RUN adduser --system --uid 555 --no-create-home --ingroup www www
@@ -33,6 +54,10 @@ COPY supervisord.conf /etc/supervisord.conf
 
 # open rewrite module
 RUN /usr/sbin/a2enmod rewrite
+
+# open expires module
+RUN ln -s /etc/apache2/mods-available/expires.load /etc/apache2/mods-enabled/expires.load
+
 
 COPY start.sh /start.sh
 
