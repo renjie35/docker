@@ -40,11 +40,11 @@ COPY oracle/oracle.sh /etc/profile.d/oracle.sh
 RUN /bin/bash -c "source /etc/profile.d/oracle.sh"
 # install php ext pdo_oci oci8
 RUN C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 pecl install oci8-2.0.12
-WORKDIR /usr/src/php/ext/pdo_oci
-RUN /bin/bash -c "/usr/src/php/ext/pdo_oci/configure" \
-    && C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 make \
-    && make install \
-RUN docker-php-ext-enable oci8 pdo_oci
+#WORKDIR /usr/src/php/ext/pdo_oci
+#RUN /bin/bash -c "/usr/src/php/ext/pdo_oci/configure" \
+#    && C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 make \
+#    && make install \
+#RUN docker-php-ext-enable oci8 pdo_oci
 
 
 # fix iconv
