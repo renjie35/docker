@@ -26,11 +26,7 @@ RUN apt-get update \
 RUN mkdir /download
 COPY oracle/ /download/
 # install php ext pdo_oci oci8
-ENV ORACLE_HOME /usr/lib/oracle/11.2/client64
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$ORACLE_HOME/lib
-ENV PATH $PATH:$ORACLE_HOME/bin
-ENV TNS_ADMIN $ORACLE_HOME/network/admin
-ENV NLS_LANG SIMPLIFIED CHINESE_CHINA.ZHS16GBK
+ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib PATH=$PATH:$ORACLE_HOME/bin TNS_ADMIN=$ORACLE_HOME/network/admin NLS_LANG=SIMPLIFIED CHINESE_CHINA.ZHS16GBK
 WORKDIR /download
 RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
     && dpkg -i oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb \
@@ -50,10 +46,11 @@ RUN chmod -R 777 /run \
     && chmod -R 777 /var \
     && chmod -R 777 /usr/sbin
 
+# install supervisor
 RUN apt-get install supervisor -y
 COPY supervisord.conf /etc/supervisord.conf
 
-# open rewrite expires module
+# open apache rewrite expires module
 RUN /usr/sbin/a2enmod rewrite \
     && ln -s /etc/apache2/mods-available/expires.load /etc/apache2/mods-enabled/expires.load
 
