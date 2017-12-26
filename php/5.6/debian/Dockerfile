@@ -41,7 +41,8 @@ COPY oracle/oracle.sh /etc/profile.d/oracle.sh
 # install php ext pdo_oci oci8
 RUN apt-get install libaio1
 RUN /bin/bash -c "source /etc/profile.d/oracle.sh" \
-    && C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 docker-php-ext-install oci8 \
+    && C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 docker-php-ext-install oci8
+RUN /bin/bash -c "source /etc/profile.d/oracle.sh" \
     && C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 docker-php-ext-install pdo_oci
 RUN docker-php-ext-enable oci8 pdo_oci
 
