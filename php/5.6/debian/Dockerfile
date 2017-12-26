@@ -27,19 +27,24 @@ RUN mkdir /download
 COPY oracle/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
 COPY oracle/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
 COPY oracle/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
+WORKDIR /download
 RUN apt-get install alien -y \
-    && alien /download/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm \
-    && alien /download/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm \
-    && alien /download/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
-RUN dpkg -i /download/oracle-instantclient12.2-basic_12.2.0.1.0-2_amd64.deb
-RUN dpkg -i /download/oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
-RUN dpkg -i /download/oracle-instantclient12.2-sqlplus_12.2.0.1.0-2_amd64.deb
+    && alien oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm \
+    && alien oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm \
+    && alien oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
+RUN dpkg -i oracle-instantclient12.2-basic_12.2.0.1.0-2_amd64.deb
+RUN dpkg -i oracle-instantclient12.2-devel_12.2.0.1.0-2_amd64.deb
+RUN dpkg -i oracle-instantclient12.2-sqlplus_12.2.0.1.0-2_amd64.deb
 # load oracle env
 COPY oracle/oracle.sh /etc/profile.d/oracle.sh
 RUN source /etc/profile.d/oracle.sh
 # install php ext pdo_oci oci8
-RUN docker-php-ext-install oci8 pdo_oci \
-    && docker-php-ext-enable oci8 pdo_oci
+RUN C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 pecl install oci8-2.0.12
+WORKDIR /usr/src/php/ext/pdo_oci
+RUN ./configure \
+    && C_INCLUDE_PATH=/usr/include/oracle/12.2/client64 make \
+    && make install \
+RUN docker-php-ext-enable oci8 pdo_oci
 
 
 # fix iconv
