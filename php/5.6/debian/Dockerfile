@@ -46,8 +46,10 @@ RUN chmod -R 777 /run \
     && chmod -R 777 /var \
     && chmod -R 777 /usr/sbin
 
-# install supervisor
+# install supervisor cron vim
 RUN apt-get install supervisor -y
+    && apt-get install cron -y
+    && apt-get install vim -y
 COPY supervisord.conf /etc/supervisord.conf
 
 # open apache rewrite expires module
