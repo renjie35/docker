@@ -39,11 +39,6 @@ RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
     && docker-php-ext-enable oci8 pdo_oci \
     && rm -rf /download
 
-
-# clean apt-get
-RUN apt-get autoclean \
-    && apt-get autoremove
-
 # fix iconv
 RUN addgroup --gid 555 --system www
 RUN adduser --system --uid 555 --no-create-home --ingroup www www
