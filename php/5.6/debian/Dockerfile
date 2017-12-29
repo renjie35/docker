@@ -19,7 +19,8 @@ RUN apt-get update \
 
     && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc mcrypt soap zip mongodb redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" >  /etc/timezone
+    && echo "Asia/Shanghai" >  /etc/timezone \
+    && apt-get clean
 
 
 # php ext oracle
@@ -59,8 +60,6 @@ RUN /usr/sbin/a2enmod rewrite \
 
 COPY start.sh /start.sh
 
-# clean apt-get
-RUN apt-get clean
 EXPOSE 80 443
 
 ENTRYPOINT ["sh","/start.sh"]
