@@ -58,6 +58,10 @@ RUN /usr/sbin/a2enmod rewrite \
 
 COPY start.sh /start.sh
 
+# clean apt-get
+RUN apt-get autoremove \
+    && apt-get clean
+
 EXPOSE 80 443
 
 ENTRYPOINT ["sh","/start.sh"]
