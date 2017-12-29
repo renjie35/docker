@@ -63,5 +63,6 @@ RUN apt-get autoremove \
     && apt-get clean
 
 EXPOSE 80 443
+WORKDIR /var/www/html
 
 ENTRYPOINT ["sh","/start.sh"]
