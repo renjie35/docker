@@ -41,7 +41,8 @@ RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
 
 
 # clean apt-get
-RUN apt-get clean
+RUN apt-get autoclean \
+    && apt-get autoremove
 
 # fix iconv
 RUN addgroup --gid 555 --system www
