@@ -19,8 +19,7 @@ RUN apt-get update \
 
     && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc mcrypt soap zip mongodb redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" >  /etc/timezone \
-    && apt-get clean
+    && echo "Asia/Shanghai" >  /etc/timezone
 
 
 # php ext oracle
@@ -40,6 +39,9 @@ RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
     && docker-php-ext-enable oci8 pdo_oci \
     && rm -rf /download
 
+
+# clean apt-get
+RUN apt-get clean
 
 # fix iconv
 RUN addgroup --gid 555 --system www
