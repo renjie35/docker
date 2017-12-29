@@ -36,7 +36,8 @@ RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
     && apt-get install libaio1 \
     && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install oci8 \
     && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install pdo_oci \
-    && docker-php-ext-enable oci8 pdo_oci
+    && docker-php-ext-enable oci8 pdo_oci \
+    && rm -rf /download
 
 
 # fix iconv
@@ -58,6 +59,8 @@ RUN /usr/sbin/a2enmod rewrite \
 
 COPY start.sh /start.sh
 
+# clean apt-get
+RUN apt-get clean
 EXPOSE 80 443
 
 ENTRYPOINT ["sh","/start.sh"]
