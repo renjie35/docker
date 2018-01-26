@@ -5,15 +5,12 @@ RUN apt-get update \
     && pecl install mongodb \
     && pecl install redis \
 
-    && apt-get install libmcrypt-dev -y \
-    && apt-get install libxml2-dev \
+    && apt-get install libmcrypt-dev libxml2-dev -y \
     && docker-php-ext-install mcrypt soap zip \
 
     && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
 
-    && apt-get install libjpeg-dev -y \
-    && apt-get install libpng-dev -y \
-    && apt-get install libfreetype6-dev -y \
+    && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
 
@@ -47,10 +44,7 @@ RUN chmod -R 777 /run \
     && chmod -R 777 /usr/sbin
 
 # install supervisor cron vim git
-RUN apt-get install supervisor -y \
-    && apt-get install cron -y \
-    && apt-get install vim -y \
-    && apt-get install git -y
+RUN apt-get install supervisor cron vim git -y
 COPY supervisord.conf /etc/supervisord.conf
 
 # open apache rewrite expires module
