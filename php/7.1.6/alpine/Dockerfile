@@ -2,6 +2,8 @@ FROM php:7.1.6-fpm-alpine
 ENV NGINX_VERSION 1.12.0
 # install php exts
 RUN apk update \
+    && apk add openssh \
+    && apk add git \
     && apk add --no-cache --virtual .phpdeps \
         $PHPIZE_DEPS openssl-dev pcre-dev libpng-dev freetype-dev libjpeg-turbo-dev libpng-dev libxml2-dev tzdata \
     && apk add --no-cache libmcrypt-dev \
@@ -143,7 +145,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
     && adduser -u 555 -D -S -G www www \
     && chmod -R 777 /run \
     && chmod -R 777 /var \
-    && chmod -R 777 /usr/sbin 
+    && chmod -R 777 /usr/sbin
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 COPY supervisord.conf /etc/supervisord.conf
