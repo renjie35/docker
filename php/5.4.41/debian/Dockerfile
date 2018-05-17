@@ -3,11 +3,12 @@ FROM php:5.4.41-apache
 RUN apt-get update \
     && apt-get install libssl-dev -y \
     && pecl install redis \
+    && pecl install ZendOpcache \
 
     && apt-get install libmcrypt-dev libxml2-dev -y \
     && docker-php-ext-install mcrypt soap zip \
 
-    && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
+    && docker-php-ext-install bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
 
     && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
