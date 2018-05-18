@@ -10,13 +10,13 @@ RUN apt-get update \
     && apt-get install libmcrypt-dev libxml2-dev -y \
     && docker-php-ext-install mcrypt soap zip \
 
-    && docker-php-ext-install bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
+    && docker-php-ext-install mysql bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
 
     && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
 
-    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc mcrypt soap zip redis gd\
+    && docker-php-ext-enable mysql opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc mcrypt soap zip redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone
 
