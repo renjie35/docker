@@ -2,11 +2,12 @@ FROM php:7-apache
 # install php exts
 RUN apt-get update \
     && apt-get install libssl-dev -y \
-    && pecl install mongodb \
+#    && pecl install mongodb \
     && pecl install redis \
+    && pecl install mcrypt \
 
     && apt-get install libmcrypt-dev libxml2-dev -y \
-    && docker-php-ext-install mcrypt soap zip \
+    && docker-php-ext-install soap zip \
 
     && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
 
@@ -14,7 +15,7 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
 
-    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc mcrypt soap zip mongodb redis gd\
+    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip mongodb redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone
 
