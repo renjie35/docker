@@ -4,7 +4,7 @@ RUN apt-get update \
     && apt-get install libssl-dev -y \
 #    && pecl install mongodb \
     && pecl install redis \
-    && pecl install mcrypt \
+    && pecl install mcrypt-1.0.1 \
 
     && apt-get install libmcrypt-dev libxml2-dev -y \
     && docker-php-ext-install soap zip \
