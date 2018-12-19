@@ -19,22 +19,22 @@ RUN apt-get update \
     && echo "Asia/Shanghai" >  /etc/timezone
 
 
-# php ext oracle
-RUN mkdir /download
-COPY oracle/ /download/
+## php ext oracle
+#RUN mkdir /download
+#COPY oracle/ /download/
 # install php ext pdo_oci oci8
-ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib PATH=$PATH:$ORACLE_HOME/bin TNS_ADMIN=$ORACLE_HOME/network/admin NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16GBK"
-WORKDIR /download
-RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
-    && dpkg -i oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb \
-    && dpkg -i oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb \
-    && mkdir $ORACLE_HOME/network \
-    && mkdir $ORACLE_HOME/network/admin \
-    && apt-get install libaio1 \
-    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install oci8 \
-    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install pdo_oci \
-    && docker-php-ext-enable oci8 pdo_oci \
-    && rm -rf /download
+#ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib PATH=$PATH:$ORACLE_HOME/bin TNS_ADMIN=$ORACLE_HOME/network/admin NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16GBK"
+#WORKDIR /download
+#RUN dpkg -i oracle-instantclient11.2-basic_11.2.0.4.0-2_amd64.deb \
+#    && dpkg -i oracle-instantclient11.2-devel_11.2.0.4.0-2_amd64.deb \
+#    && dpkg -i oracle-instantclient11.2-sqlplus_11.2.0.4.0-2_amd64.deb \
+#    && mkdir $ORACLE_HOME/network \
+#    && mkdir $ORACLE_HOME/network/admin \
+#    && apt-get install libaio1 \
+#    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install oci8 \
+#    && C_INCLUDE_PATH=/usr/include/oracle/11.2/client64 docker-php-ext-install pdo_oci \
+#    && docker-php-ext-enable oci8 pdo_oci \
+#    && rm -rf /download
 
 # fix iconv
 RUN addgroup --gid 555 --system www
