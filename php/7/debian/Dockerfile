@@ -5,7 +5,7 @@ RUN apt-get update \
     && apt-get install libssl-dev -y \
     && pecl install redis \
     && apt-get install libmcrypt-dev libxml2-dev -y \
-    && docker-php-ext-install openssl soap zip \
+    && docker-php-ext-install soap zip \
 
     && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
 
