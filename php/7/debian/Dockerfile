@@ -1,20 +1,21 @@
 FROM php:7-apache
 # install php exts
-RUN apk update \
-    && apk add openssh \
-    && apk add git \
-    && apk add --no-cache --virtual .phpdeps \
-        $PHPIZE_DEPS openssl-dev pcre-dev libpng-dev freetype-dev libjpeg-turbo-dev libpng-dev libxml2-dev tzdata \
-    && apk add --no-cache libmcrypt-dev \
-    && pecl channel-update pecl.php.net \
-    && pecl install mongodb \
+RUN apt-get update \
+    && apt-get install openssl -y  \
+    && apt-get install libssl-dev -y \
     && pecl install redis \
-    && docker-php-ext-install opcache bcmath exif mcrypt mysqli pdo_mysql shmop soap sockets sysvsem xmlrpc zip \
+    && apt-get install libmcrypt-dev libxml2-dev -y \
+    && docker-php-ext-install openssl soap zip \
+
+    && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
+
+    && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
-    && docker-php-ext-enable opcache bcmath exif gd mcrypt mysqli pdo_mysql shmop soap sockets sysvsem xmlrpc zip mongodb redis \
+
+    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc openssl soap zip mongodb redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" >  /etc/timezone \
+    && echo "Asia/Shanghai" >  /etc/timezone
 
 # fix iconv
 RUN addgroup --gid 555 --system www
