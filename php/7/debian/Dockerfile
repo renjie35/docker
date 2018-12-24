@@ -20,7 +20,7 @@ RUN apt-get update \
 
 # fix iconv
 RUN groupadd --gid 555 --system www
-RUN useradd --system --uid 555 --no-create-home --ingroup www www
+RUN useradd --system --uid 555 -g www www
 RUN chmod -R 777 /run \
     && chmod -R 777 /var \
     && chmod -R 777 /usr/sbin 
