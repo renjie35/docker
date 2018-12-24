@@ -19,11 +19,12 @@ RUN apt-get update \
     && echo "Asia/Shanghai" >  /etc/timezone
 
 # fix iconv
-RUN addgroup --gid 555 --system www
-RUN adduser --system --uid 555 --no-create-home --ingroup www www
+RUN groupadd --gid 555 --system www
+RUN useradd --system --uid 555 --no-create-home --ingroup www www
 RUN chmod -R 777 /run \
     && chmod -R 777 /var \
-    && chmod -R 777 /usr/sbin
+    && chmod -R 777 /usr/sbin 
+RUN useradd wellyinli -g www
 
 # install supervisor cron vim git
 RUN apt-get install supervisor cron vim git -y
