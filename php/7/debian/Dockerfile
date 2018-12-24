@@ -24,7 +24,7 @@ RUN apt-get update \
 RUN chmod -R 777 /run \
     && chmod -R 777 /var \
     && chmod -R 777 /usr/sbin 
-RUN useradd wellyinli -g www-data
+RUN useradd www -g www-data
 
 # install supervisor cron vim git
 RUN apt-get install supervisor cron vim git -y
