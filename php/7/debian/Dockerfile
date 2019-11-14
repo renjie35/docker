@@ -10,7 +10,10 @@ RUN apt-get update \
     && pecl install redis \
     && apt-get install libxml2-dev -y \
     && apt-get install zlib1g-dev libzip-dev -y \
+
+    && docker-php-ext-configure pcncl --enable-pcntl \
     && docker-php-ext-install pcncl \
+
     && docker-php-ext-install soap zip \
 
     && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
