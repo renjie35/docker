@@ -13,10 +13,11 @@ RUN apt-get update \
 
     && docker-php-ext-install pcntl gd soap zip opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
 
-    && docker-php-ext-enable pcntl opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd
+    && docker-php-ext-enable pcntl gd soap zip opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc
 
 # install pecl ext
-RUN pecl install redis
+RUN pecl install redis \
+    && docker-php-ext-enable redis
 
 # fix iconv
 RUN groupadd --gid 555 --system www
