@@ -12,9 +12,9 @@ RUN apt-get update \
 
     && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd \
+    && docker-php-ext-install pcncl gd \
 
-    && docker-php-ext-enable pcncl opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd\
+    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone
 
