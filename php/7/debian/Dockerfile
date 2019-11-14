@@ -1,30 +1,22 @@
 FROM php:7-apache
 # install php exts
-RUN docker-php-source extract \
-    # 此处开始执行你需要的操作 \
-    && docker-php-source delete
-
 RUN apt-get update \
     && apt-get install openssl -y  \
     && apt-get install libssl-dev -y \
-    && pecl install redis \
     && apt-get install libxml2-dev -y \
     && apt-get install zlib1g-dev libzip-dev -y \
-
-    && docker-php-ext-configure pcncl --enable-pcntl \
-    && docker-php-ext-install pcncl \
-
-    && docker-php-ext-install soap zip \
-
-    && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
-
     && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd \
 
-    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd\
-    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" >  /etc/timezone
+    && docker-php-ext-configure pcntl --enable-pcntl \
+
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+
+    && docker-php-ext-install pcntl gd soap zip opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
+
+    && docker-php-ext-enable pcntl opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd
+
+# install pecl ext
+RUN pecl install redis
 
 # fix iconv
 RUN groupadd --gid 555 --system www
@@ -40,6 +32,9 @@ COPY supervisord.conf /etc/supervisord.conf
 # open apache rewrite expires module
 RUN /usr/sbin/a2enmod rewrite \
     && ln -s /etc/apache2/mods-available/expires.load /etc/apache2/mods-enabled/expires.load
+
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" >  /etc/timezone
 
 COPY start.sh /start.sh
 
