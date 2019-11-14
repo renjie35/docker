@@ -1,18 +1,23 @@
 FROM php:7-apache
 # install php exts
+RUN docker-php-source extract \
+    # 此处开始执行你需要的操作 \
+    && docker-php-source delete
+
 RUN apt-get update \
     && apt-get install openssl -y  \
     && apt-get install libssl-dev -y \
     && pecl install redis \
     && apt-get install libxml2-dev -y \
     && apt-get install zlib1g-dev libzip-dev -y \
+    && docker-php-ext-install pcncl \
     && docker-php-ext-install soap zip \
 
     && docker-php-ext-install opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc \
 
     && apt-get install libjpeg-dev libpng-dev libfreetype6-dev -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install pcncl gd \
+    && docker-php-ext-install gd \
 
     && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
