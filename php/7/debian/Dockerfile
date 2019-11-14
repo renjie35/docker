@@ -14,7 +14,7 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
 
-    && docker-php-ext-enable opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd\
+    && docker-php-ext-enable pcncl opcache bcmath exif mysqli pdo_mysql shmop sockets sysvsem xmlrpc soap zip redis gd\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >  /etc/timezone
 
@@ -23,7 +23,7 @@ RUN groupadd --gid 555 --system www
 RUN useradd --system --uid 555 -g www www
 RUN chmod -R 777 /run \
     && chmod -R 777 /var \
-    && chmod -R 777 /usr/sbin 
+    && chmod -R 777 /usr/sbin
 
 # install supervisor cron vim git
 RUN apt-get install supervisor cron vim git -y
