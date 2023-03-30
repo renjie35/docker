@@ -1,5 +1,5 @@
 FROM php:5.4.41-apache
-# install php exts
+# install php exts 
 COPY docker-php-ext-enable.sh /usr/local/bin/docker-php-ext-enable
 RUN chmod 777 /usr/local/bin/docker-php-ext-enable
 RUN apt-get update \
